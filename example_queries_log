@@ -1,0 +1,105 @@
+Script started on 2023-04-10 18:26:33-04:00 [TERM="xterm-256color" TTY="/dev/pts/22" COLUMNS="216" LINES="27"]
+[?2004h]0;~/D/c/cab-project-13[30m(B[m[92mnil(B[m@(B[mmarten(B[m [32m~/D/c/cab-project-13(B[m (main)(B[m> [K[40Cscript log[50C[10D[38;2;0;95;215mscript[30m(B[m [38;2;0;175;255m[4mlog[50C[30m(B[m[10Drm log[K[46C[38;2;0;95;215mrm[30m(B[m [38;2;0;175;255m[4mlog[46C[30m(B[mcat log[47C[38;2;0;95;215mcat[30m(B[m [38;2;0;175;255m[4mlog[47C[30m(B[mpsql project[52C[12D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[52C[30m(B[m[12Dcreatedb project[56C[16D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[56C[30m(B[m[16Dsh[K[42C[38;2;0;95;215msh[42C[30m(B[mman 1 script[52C[12D[38;2;0;95;215mman[30m(B[m [38;2;0;175;255m1[30m(B[m [38;2;0;175;255mscript[52C[30m(B[m[12Dsudo -iu postgres[57C[17D[38;2;0;95;215msudo[30m(B[m [38;2;0;175;255m-iu[30m(B[m [38;2;0;175;255mpostgres[57C[30m(B[m[17Dman 1 script[K[52C[12D[38;2;0;95;215mman[30m(B[m [38;2;0;175;255m1[30m(B[m [38;2;0;175;255mscript[52C[30m(B[m[12Dsh[K[42C[38;2;0;95;215msh[42C[30m(B[mcreatedb project[56C[16D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[56C[30m(B[m[16Dpsql project[K[52C[12D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[52C[30m(B[m[12Dcat log[K[47C[38;2;0;95;215mcat[30m(B[m [38;2;0;175;255m[4mlog[47C[30m(B[mpsql project[52C[12D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[52C[30m(B[m[12Dcreatedb project[56C[16D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[56C[30m(B[m[16Dsh[K[42C[38;2;0;95;215msh[42C[30m(B[mcreatedb project[56C[16D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[56C[30m(B[m[16Dpsql project[K[52C[12D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[52C[30m(B[m[12Dcat log[K[47C[38;2;0;95;215mcat[30m(B[m [38;2;0;175;255m[4mlog[47C[30m(B[mrm log[K[46C[38;2;0;95;215mrm[30m(B[m [38;2;0;175;255m[4mlog[46C[30m(B[mscript log[50C[10D[38;2;0;95;215mscript[30m(B[m [38;2;0;175;255m[4mlog[50C[30m(B[m[10Drm log[K[46C[38;2;0;95;215mrm[30m(B[m [38;2;0;175;255m[4mlog[46C[30m(B[mcat log[47C[38;2;0;95;215mcat[30m(B[m [38;2;0;175;255m[4mlog[47C[30m(B[mpsql project[52C[12D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[52C[30m(B[m[12Dcreatedb project[56C[16D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[56C[30m(B[m[49C[49C[9D[38;2;0;175;255mproject[30m(B[m[K[40C[38;2;255;0;0mproject[40C[30m(B[md[38;2;255;0;0mproject[41C[30m(B[m[38;2;255;0;0mdproject[41C[30m(B[m[38;2;255;0;0mrproject[42C[30m(B[m[38;2;255;0;0moproject[43C[30m(B[m[C[38;2;255;0;0mproject[44C[30m(B[m[38;2;255;0;0mdproject[45C[30m(B[m[38;2;255;0;0mbproject[46C[30m(B[m[38;2;255;0;0m project[47C[30m(B[m[38;2;0;95;215mdropdb[30m(B[m [38;2;0;175;255mproject[47C[30m(B[m[54C
+[30m(B[m[?2004l]0;dropdb project ~/D/c/cab-project-13[30m(B[m[2m⏎(B[m                                                                                                                                                                                                                       ⏎ [K[?2004h]0;~/D/c/cab-project-13[30m(B[m[92mnil(B[m@(B[mmarten(B[m [32m~/D/c/cab-project-13(B[m (main)(B[m> [K[40Cdropdb project[54C[14D[38;2;0;95;215mdropdb[30m(B[m [38;2;0;175;255mproject[54C[30m(B[m[47C[47C[38;2;0;175;255mproject[30m(B[m[K[40C[38;2;255;0;0mproject[40C[30m(B[mc[38;2;255;0;0mproject[41C[30m(B[m[38;2;255;0;0mcproject[41C[30m(B[m[38;2;255;0;0mrproject[42C[30m(B[m[38;2;255;0;0meproject[43C[30m(B[m[38;2;255;0;0maproject[44C[30m(B[m[38;2;255;0;0mtproject[45C[30m(B[m[38;2;255;0;0meproject[46C[30m(B[m[38;2;255;0;0mdproject[47C[30m(B[m[38;2;255;0;0mbproject[48C[30m(B[m[38;2;255;0;0m project[49C[30m(B[m[49C[9D[38;2;0;95;215mcreatedb[30m(B[m [38;2;0;175;255mproject[49C[30m(B[m[56C
+[30m(B[m[?2004l]0;createdb project ~/D/c/cab-project-13[30m(B[m[2m⏎(B[m                                                                                                                                                                                                                       ⏎ [K[?2004h]0;~/D/c/cab-project-13[30m(B[m[92mnil(B[m@(B[mmarten(B[m [32m~/D/c/cab-project-13(B[m (main)(B[m> [K[40Cp[41C[38;2;85;85;85msql project[41C[30m(B[m[38;2;255;0;0mp[38;2;85;85;85msql project[41C[30m(B[m[38;2;255;0;0ms[38;2;85;85;85mql project[42C[30m(B[m[38;2;0;95;215mps[38;2;85;85;85mql project[42C[30m(B[m[38;2;0;95;215mq[38;2;85;85;85ml project[43C[30m(B[m[38;2;255;0;0mpsq[38;2;85;85;85ml project[43C[30m(B[m[38;2;255;0;0ml[38;2;85;85;85m project[44C[30m(B[m[38;2;0;95;215mpsql[38;2;85;85;85m project[44C[30m(B[m[38;2;0;95;215m [38;2;85;85;85mproject[45C[30m(B[m [38;2;85;85;85mproject[45C[30m(B[mp[38;2;85;85;85mroject[46C[30m(B[m[38;2;0;175;255mp[38;2;85;85;85mroject[46C[30m(B[m[38;2;0;175;255mr[38;2;85;85;85moject[47C[30m(B[m[38;2;0;175;255mo[38;2;85;85;85mject[48C[30m(B[m[38;2;0;175;255mj[38;2;85;85;85mect[49C[30m(B[m[9Dpsql project [53C[13D[38;2;0;95;215mpsql[30m(B[m [38;2;0;175;255mproject[30m(B[m [53C
+[30m(B[m[?2004l]0;psql project  ~/D/c/cab-project-13[30m(B[mpsql (15.2)
+Type "help" for help.
+
+[?2004hproject=# \[K\i in
+
+project=# \i in[K[Ke[K
+db_scripts/          example_queries.sql  .git/                log                  make_database.sh     README.md            
+project=# \i db_scripts/initialize_db.sql 
+[?2004lpsql:db_scripts/initialize_db.sql:1: ERROR:  table "means_of_transportation" does not exist
+psql:db_scripts/initialize_db.sql:2: ERROR:  table "on_road_vehicle" does not exist
+psql:db_scripts/initialize_db.sql:3: ERROR:  table "population" does not exist
+psql:db_scripts/initialize_db.sql:4: ERROR:  table "municipality" does not exist
+CREATE TYPE
+CREATE TYPE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 565
+INSERT 0 1130
+INSERT 0 9040
+INSERT 0 14638
+[?2004hproject=# \i example_queries.sql 
+[?2004l        name         |  county   |  pop   
+---------------------+-----------+--------
+ Clifton City        | Passaic   |  85552
+ Edison Township     | Middlesex | 101865
+ Elizabeth City      | Union     | 127759
+ Hamilton Township   | Mercer    |  89055
+ Jersey City         | Hudson    | 259651
+ Lakewood Township   | Ocean     |  96575
+ Newark City         | Essex     | 279793
+ Paterson City       | Passaic   | 146987
+ Toms River Township | Ocean     |  91029
+ Trenton City        | Mercer    |  84632
+ Woodbridge Township | Middlesex | 101164
+(11 rows)
+
+CREATE VIEW
+CREATE VIEW
+              name              |   county   | pop2015 | pop2020 
+--------------------------------+------------+---------+---------
+ Atlantic City                  | Atlantic   |   39547 |   37793
+ Camden City                    | Camden     |   76904 |   73742
+ Edison Township                | Middlesex  |  101865 |   99876
+ Galloway Township              | Atlantic   |   37431 |   35816
+ Hamilton Township              | Mercer     |   89055 |   87258
+ Parsippany-Troy Hills Township | Morris     |   53651 |   52048
+ Paterson City                  | Passaic    |  146987 |  145484
+ Vineland City                  | Cumberland |   60987 |   59405
+(8 rows)
+
+DROP VIEW
+DROP VIEW
+    name     | county |   co2    | year 
+-------------+--------+----------+------
+ Newark City | Essex  | 40088.74 | 2019
+(1 row)
+
+    name     | county |   co2   | year 
+-------------+--------+---------+------
+ Newark City | Essex  | 1871.98 | 2019
+(1 row)
+
+          name          | county | percentage 
+------------------------+--------+------------
+ Point Pleasant Borough | Ocean  |      4.855
+(1 row)
+
+        name        |  county  | percentage 
+--------------------+----------+------------
+ Port Republic City | Atlantic |      2.259
+(1 row)
+
+             type             |   co2    
+------------------------------+----------
+ combination long-haul truck  |  3401.78
+ combination short-haul truck | 10524.38
+ intercity bus                |   787.68
+ light commercial trucks      | 10828.26
+ motor home                   |   355.72
+ motorcycles                  |   547.29
+ passenger cars               | 52828.96
+ passenger trucks             | 58284.70
+ refuse truck                 |   922.43
+ school bus                   |   884.00
+ single unit long-haul truck  |  3380.87
+ single unit short-haul truck |  6696.75
+ transit bus                  |   511.99
+(13 rows)
+
+       name       | county | percentage 
+------------------+--------+------------
+ Hoboken City     | Hudson |     23.082
+ Walpack Township | Sussex |      0.000
+(2 rows)
+
+[?2004hproject=# \q
+[?2004l[2m⏎(B[m                                                                                                                                                                                                                       ⏎ [K[?2004h]0;~/D/c/cab-project-13[30m(B[m[92mnil(B[m@(B[mmarten(B[m [32m~/D/c/cab-project-13(B[m (main)(B[m> [K[40Ce[41C[38;2;255;0;0me[41C[30m(B[m[38;2;85;85;85mcho main.c glad.c -I. (sdl2-config --libs --cflags) -ldl[41C[30m(B[m[38;2;255;0;0mx[30m(B[m[K[42C[38;2;0;95;215mex[42C[30m(B[m[38;2;85;85;85mit[42C[30m(B[m[38;2;0;95;215mi[38;2;85;85;85mt[43C[30m(B[m[38;2;255;0;0mexi[38;2;85;85;85mt[43C[30m(B[m[38;2;255;0;0mt[44C[30m(B[m[38;2;0;95;215mexit[44C[30m(B[m[44C[44C
+[30m(B[m[?2004l]0;exit ~/D/c/cab-project-13[30m(B[m[30m(B[m[?2004l
+Script done on 2023-04-10 18:27:16-04:00 [COMMAND_EXIT_CODE="0"]

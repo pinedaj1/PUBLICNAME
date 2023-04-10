@@ -61,6 +61,15 @@ def get_mno(name, county):
         municipalities[key] = len(municipalities)
     return municipalities[key]
 
+def clean_up_municipality_name(name):
+    # capitalize town type, and remove duplicate town type if present
+    parts = name.split(' ')
+    if len(parts) > 1:
+        parts[-1] = parts[-1][0].upper() + parts[-1][1:]
+        if parts[-1] == parts[-2]:
+            parts.pop()
+    return ' '.join(parts)
+
 with open('initialize_db.sql', 'wt') as file:
     print('DROP TABLE means_of_transportation;', file=file)
     print('DROP TABLE on_road_vehicle;', file=file)
@@ -104,11 +113,11 @@ with open('initialize_db.sql', 'wt') as file:
 
     print('CREATE TABLE means_of_transportation (', file=file)
     print('MNo SMALLINT,', file=file)
-    print('PYear SMALLINT,', file=file)
+    print('Year SMALLINT,', file=file)
     print('Type means_of_transportation_type,', file=file)
     print('Percentage DECIMAL(7,3),', file=file)
-    print('PRIMARY KEY (MNo, PYear, Type),', file=file)
-    print('FOREIGN KEY (MNo, PYear) REFERENCES population (MNo, Year)', file=file)
+    print('PRIMARY KEY (MNo, Year, Type),', file=file)
+    print('FOREIGN KEY (MNo, Year) REFERENCES population (MNo, Year)', file=file)
     print(');', file=file)
 
     ev_data = {}
@@ -130,13 +139,16 @@ with open('initialize_db.sql', 'wt') as file:
     counties = {}
     for entry in import_csv('ev.csv', lower=False):
         name = entry['Municipality']
+        name_key = name.lower()
+        name = clean_up_municipality_name(name)
         county = entry['County']
+        county_key = county.lower()
         # ensure consistent capitalization
-        assert name.lower() not in names or names[name.lower()] == name
-        assert county.lower() not in counties or counties[county.lower()] == county
+        assert name_key not in names or names[name_key] == name
+        assert county_key not in counties or counties[county_key] == county
         # then add
-        names[name.lower()] = name
-        counties[county.lower()] = county
+        names[name_key] = name
+        counties[county_key] = county
 
     print('INSERT INTO municipality (MNo, Name, County) VALUES', file=file)
     municipality_values = []
@@ -158,7 +170,7 @@ with open('initialize_db.sql', 'wt') as file:
             mot_data.append(f"({mno}, {year}, '{mot_type}', {percentage})")
     print('INSERT INTO population (MNo, Year, EVs, CO2, Pop, PersonalVehicles) VALUES', file=file)
     print(',\n'.join(population_values) + ';', file=file)
-    print(';INSERT INTO means_of_transportation (MNo, PYear, Type, Percentage) VALUES', file=file)
+    print(';INSERT INTO means_of_transportation (MNo, Year, Type, Percentage) VALUES', file=file)
     print(',\n'.join(mot_data) + ';', file=file)
 
     vehicle_values = []
