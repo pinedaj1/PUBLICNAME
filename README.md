@@ -10,3 +10,7 @@ Run `make_database.sh` to create the database population script.
 ## Databases used
 
 Various databases from the [Sustainable Jersey Data Center](https://www.sustainablejersey.com/resources/data-center/)
+
+Municipality topology data from [NJGIN Open Data](https://njogis-newjersey.opendata.arcgis.com/datasets/newjersey::municipal-boundaries-of-nj)
+
+Topology simplified using [MapShaper](https://mapshaper.org/)
