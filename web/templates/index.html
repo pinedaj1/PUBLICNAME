@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>{% import 'macros.html' as macros %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Database Homepage</title>
+    </head>
+    <body>
+        <h1>Database Homepage</h1>
+        Which municipality do you want to search for?
+        <form action="/municipality" method="POST">
+            <select name="mno">
+            {% for m in municipalities %}
+                <option value="{{ m.mno }}">{{ macros.municipality(m.name, m.county) }}</option>
+            {% endfor %}
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>{% import 'macros.html' as macros %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Available data for {{ macros.municipality(name, county) }}</title>
+    </head>
+    <body>
+        <h1>Available data for {{ macros.municipality(name, county) }}</h1>
+
+        <h2>Means of Transportation to Work</h2>
+        <form action="/mot" method="POST">
+            <input type="hidden" name="mno" value="{{ mno }}" />
+            <select name="year">
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+
+        {% if years|length > 0 %} {# prevents showing a dropdown when no data available #}
+        <h2>Vehicle Miles Traveled and GHG emissions</h2>
+        <form action="/vmt" method="POST">
+            <input type="hidden" name="mno" value="{{ mno }}" />
+            <select name="year">
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+        {% endif %}
+
+        <h2>EV Ownership and Population</h2>
+        <form action="/ev" method="POST">
+            <input type="hidden" name="mno" value="{{ mno }}" />
+            <select name="year">
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+    </body>
+</html>

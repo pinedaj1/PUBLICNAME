@@ -1,0 +1,2 @@
+{% macro municipality(name, county) %}{{ name }}, {{ county }} County{% endmacro %}
+{% macro municipality_year(name, county, year) %}{{ municipality(name, county) }}, {{ year }}{% endmacro %}

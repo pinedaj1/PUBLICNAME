@@ -55,6 +55,7 @@ import json
 import psycopg2
 from config import config
 from flask import Flask, render_template, request
+from collections import namedtuple
 
 # Connect to the PostgreSQL database server
 def connect(query):
@@ -89,23 +90,52 @@ def connect(query):
 # app.py
 app = Flask(__name__)
 
-# # serve form web page
-# @app.route("/")
-# def form():
-#     return render_template('my-form.html')
+def name_and_county(mno):
+    # sanitize inputs!
+    mno = int(mno)
+    # make query
+    return tuple(connect(f'SELECT name, county FROM municipality WHERE mno = {mno};')[0])
 
-# # handle venue POST and serve result web page
-# @app.route('/venue-handler', methods=['POST'])
-# def venue_handler():
-#     rows = connect('SELECT venue_id, title FROM events WHERE venue_id = ' + request.form['venue_id'] + ';')
-#     heads = ['venue_id', 'title']
-#     return render_template('my-result.html', rows=rows, heads=heads)
+@app.route('/municipality', methods=['POST'])
+def municipality():
+    mno = int(request.form['mno'])
+    name, county = name_and_county(mno)
+    # check which years are supported for on_road_vehicle
+    years = [row[0] for row in connect(f'SELECT DISTINCT year FROM on_road_vehicle WHERE mno = {mno};')]
+    return render_template('municipality.html', mno=mno, name=name, county=county, years=years)
 
-# # handle query POST and serve result web page
-# @app.route('/query-handler', methods=['POST'])
-# def query_handler():
-#     rows = connect(request.form['query'])
-#     return render_template('my-result.html', rows=rows)
+Municipality = namedtuple('Municipality', ('mno', 'name', 'county'))
+MOT = namedtuple('MOT', ('type', 'percentage'))
+VMT = namedtuple('VMT', ('type', 'miles', 'co2'))
+
+@app.route('/')
+def home():
+    municipalities = [Municipality(*row) for row in connect('SELECT mno, name, county FROM municipality;')]
+    return render_template('index.html', municipalities=municipalities)
+
+@app.route('/mot', methods=['POST'])
+def mot():
+    mno = int(request.form['mno'])
+    name, county = name_and_county(mno)
+    year = int(request.form['year'])
+    types = [MOT(*row) for row in connect(f'SELECT type, percentage FROM means_of_transportation WHERE mno = {mno} AND year = {year};')]
+    return render_template('mot.html', name=name, county=county, year=year, types=types)
+
+@app.route('/vmt', methods=['POST'])
+def vmt():
+    mno = int(request.form['mno'])
+    name, county = name_and_county(mno)
+    year = int(request.form['year'])
+    types = [VMT(*row) for row in connect(f'SELECT type, miles, co2 FROM on_road_vehicle WHERE mno = {mno} AND year = {year};')]
+    return render_template('vmt.html', name=name, county=county, year=year, types=types)
+
+@app.route('/ev', methods=['POST'])
+def ev():
+    mno = int(request.form['mno'])
+    name, county = name_and_county(mno)
+    year = int(request.form['year'])
+    evs, personal, pop = connect(f'SELECT evs, personalvehicles, pop FROM population WHERE mno = {mno} AND year = {year};')[0]
+    return render_template('ev.html', name=name, county=county, year=year, evs=evs, personal=personal, pop=pop)
 
 @app.route('/population.json', methods=['GET'])
 def population_handler():
