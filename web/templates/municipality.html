@@ -11,11 +11,7 @@
         <h2>Means of Transportation to Work</h2>
         <form action="/mot" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
-            <select name="year">
-                <option value="2015">2015</option>
-                <option value="2020">2020</option>
-            </select>
-            <input type="submit" value="Search" />
+            <input type="submit" value="View means of transportation" />
         </form>
 
         {% if years|length > 0 %} {# prevents showing a dropdown when no data available #}

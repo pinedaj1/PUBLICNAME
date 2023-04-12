@@ -53,9 +53,17 @@ https://www.geeksforgeeks.org/python-using-for-loop-in-flask/
 
 import json
 import psycopg2
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+from base64 import b64encode
+from collections import namedtuple
 from config import config
 from flask import Flask, render_template, request
-from collections import namedtuple
+from io import BytesIO
+from textwrap import wrap
+
+matplotlib.use('agg')
 
 # Connect to the PostgreSQL database server
 def connect(query):
@@ -96,6 +104,26 @@ def name_and_county(mno):
     # make query
     return tuple(connect(f'SELECT name, county FROM municipality WHERE mno = {mno};')[0])
 
+def render_plot():
+    fig = plt.gcf()
+    f = BytesIO()
+    fig.savefig(f, format='png')
+    f.seek(0)
+    return b64encode(f.getbuffer()).decode()
+
+def bar_chart(years, types, rows):
+    plt.figure(figsize=(8, 5))
+    indices = np.arange(len(types))
+
+    width = 1.0 / len(years)
+    offset = -0.5 + 0.5 * width
+    for year, row in zip(years, rows):
+        plt.bar(indices + offset, row, width, label=year)
+        offset += width
+
+    plt.xticks(indices, ['\n'.join(wrap(t, 10)) for t in types])
+    plt.legend(years)
+
 @app.route('/municipality', methods=['POST'])
 def municipality():
     mno = int(request.form['mno'])
@@ -105,8 +133,10 @@ def municipality():
     return render_template('municipality.html', mno=mno, name=name, county=county, years=years)
 
 Municipality = namedtuple('Municipality', ('mno', 'name', 'county'))
-MOT = namedtuple('MOT', ('type', 'percentage'))
 VMT = namedtuple('VMT', ('type', 'miles', 'co2'))
+
+MOT_ENUM = [row[0] for row in connect('SELECT UNNEST(ENUM_RANGE(NULL::means_of_transportation_type));')]
+print(MOT_ENUM)
 
 @app.route('/')
 def home():
@@ -117,9 +147,24 @@ def home():
 def mot():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
-    year = int(request.form['year'])
-    types = [MOT(*row) for row in connect(f'SELECT type, percentage FROM means_of_transportation WHERE mno = {mno} AND year = {year};')]
-    return render_template('mot.html', name=name, county=county, year=year, types=types)
+    groups = {}
+    bar_rows = {}
+    for (t, percentage, year) in connect(f'SELECT type, percentage, year FROM means_of_transportation WHERE mno = {mno};'):
+        if year not in groups:
+            groups[year] = []
+            bar_rows[year] = [None for _ in range(len(MOT_ENUM))]
+        groups[year].append({ 'type': t, 'percentage': percentage })
+        bar_rows[year][MOT_ENUM.index(t)] = float(percentage)
+    # render bar chart
+    plt.cla()
+    plt.clf()
+    bar_chart(
+        (2015, 2020),
+        MOT_ENUM,
+        (bar_rows[2015], bar_rows[2020]),
+    )
+    chart = render_plot()
+    return render_template('mot.html', name=name, county=county, groups=groups, chart=chart)
 
 @app.route('/vmt', methods=['POST'])
 def vmt():
