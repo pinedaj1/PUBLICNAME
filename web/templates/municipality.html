@@ -14,16 +14,11 @@
             <input type="submit" value="View means of transportation" />
         </form>
 
-        {% if years|length > 0 %} {# prevents showing a dropdown when no data available #}
+        {% if have_vmt %}
         <h2>Vehicle Miles Traveled and GHG emissions</h2>
         <form action="/vmt" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
-            <select name="year">
-                {% for year in years %}
-                    <option value="{{ year }}">{{ year }}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" value="Search" />
+            <input type="submit" value="View emissions" />
         </form>
         {% endif %}
 
