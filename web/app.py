@@ -111,6 +111,29 @@ def render_plot():
     f.seek(0)
     return b64encode(f.getbuffer()).decode()
 
+class YearTable:
+    def __init__(self, columns, table, mno):
+        self.header = ['Year'] + list(columns)
+        self.rows = connect(f'SELECT year, {", ".join(columns)} FROM {table} WHERE mno = {mno};')
+
+class TypedYearTable(YearTable):
+    def __init__(self, column, table, mno):
+        super().__init__(['Type', column], table, mno)
+        self.types = [row[0] for row in connect(f'SELECT UNNEST(ENUM_RANGE(NULL::{table}_type));')]
+        self.header = ['Year'] + self.types
+        year_rows = {}
+        for year, type, value in self.rows:
+            if year not in year_rows:
+                year_rows[year] = [year] + [None for _ in range(len(self.types))]
+            year_rows[year][self.types.index(type) + 1] = value
+        self.rows = sorted(year_rows.values())
+
+    def bar_chart(self, title):
+        plt.cla()
+        plt.clf()
+        bar_chart(title, [row[0] for row in self.rows], self.types, [row[1:] for row in self.rows])
+        return render_plot()
+
 def bar_chart(title, years, types, rows):
     plt.figure(figsize=(8, 8))
     plt.subplots_adjust(bottom=0.3)
@@ -153,67 +176,21 @@ def home():
 def mot():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
-    groups = {}
-    bar_rows = {}
-    for (t, percentage, year) in connect(f'SELECT type, percentage, year FROM means_of_transportation WHERE mno = {mno};'):
-        if year not in groups:
-            groups[year] = []
-            bar_rows[year] = [None for _ in range(len(MOT_ENUM))]
-        groups[year].append({ 'type': t, 'percentage': percentage })
-        bar_rows[year][MOT_ENUM.index(t)] = float(percentage)
-    # render bar chart
-    plt.cla()
-    plt.clf()
-    bar_chart(
-        'Percentage of Total Means of Transportation',
-        (2015, 2020),
-        MOT_ENUM,
-        (bar_rows[2015], bar_rows[2020]),
-    )
-    chart = render_plot()
-    return render_template('mot.html', name=name, county=county, groups=groups, chart=chart)
+    year_table = TypedYearTable('Percentage', 'means_of_transportation', mno)
+    chart = year_table.bar_chart('Percentage of Total Means of Transportation')
+    return render_template('mot.html', name=name, county=county, chart=chart, year_table=year_table)
 
 @app.route('/vmt', methods=['POST'])
 def vmt():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
-    groups = {}
-    years = []
-    miles_bar_rows = {}
-    co2_bar_rows = {}
-    for (t, miles, co2, year) in connect(f'SELECT type, miles, co2, year FROM on_road_vehicle WHERE mno = {mno};'):
-        if year not in groups:
-            groups[year] = []
-            miles_bar_rows[year] = [None for _ in range(len(VMT_ENUM))]
-            co2_bar_rows[year] = [None for _ in range(len(VMT_ENUM))]
-            years.append(year)
-        groups[year].append({ 'type': t, 'miles': miles, 'co2': co2 })
-        miles_bar_rows[year][VMT_ENUM.index(t)] = miles
-        co2_bar_rows[year][VMT_ENUM.index(t)] = float(co2)
-    # render bar charts
-    if len(years) == 0:
-        # the interface disallows this query, but we should always protect
-        # against queries that could possibly be made manually
-        raise RuntimeError('no data')
-    plt.cla()
-    plt.clf()
-    bar_chart(
-        'Miles Traveled by On-road Vehicles',
-        years,
-        VMT_ENUM,
-        [miles_bar_rows[year] for year in years],
-    )
-    miles_chart = render_plot()
-    plt.cla()
-    plt.clf()
-    bar_chart(
-        'CO2 Emissions by On-road Vehicles',
-        years,
-        VMT_ENUM,
-        [co2_bar_rows[year] for year in years],
-    )
-    co2_chart = render_plot()
-    return render_template('vmt.html', name=name, county=county, groups=groups, miles_chart=miles_chart, co2_chart=co2_chart)
+    miles_year_table = TypedYearTable('Miles', 'on_road_vehicle', mno)
+    if len(miles_year_table.rows) == 0:
+        raise RuntimeError('no years available')
+    miles_chart = miles_year_table.bar_chart('Miles Traveled by On-road Vehicles',)
+    co2_year_table = TypedYearTable('CO2', 'on_road_vehicle', mno)
+    co2_chart = co2_year_table.bar_chart('CO2 Emissions in Tons by On-road Vehicles',)
+    return render_template('vmt.html', name=name, county=county, miles_year_table=miles_year_table, miles_chart=miles_chart, co2_year_table=co2_year_table,co2_chart=co2_chart)
 
 @app.route('/ev', methods=['POST'])
 def ev():
