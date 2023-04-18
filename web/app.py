@@ -204,14 +204,24 @@ def ev():
 @app.route('/ghg', methods=['POST'])
 def ghg():
     year = int(request.form['year'])
-    return render_template('map.html', query_path=f'/ghg.json?year={year}')
+    return render_template('map.html', query_path=f'/ghg.json?year={year}', color_map='heatmap', display_type='co2')
 
 @app.route('/mot2', methods=['POST'])
 def mot2():
     year = int(request.form['year'])
     t1 = int(request.form['t1'])
     t2 = int(request.form['t2'])
-    return render_template('map.html', query_path=f'/mot.json?year={year}&t1={t1}&t2={t2}')
+    # validate range
+    if t1 >= len(MOT_ENUM) or t1 < 0 or t2 >= len(MOT_ENUM) or t2 < 0:
+        return Response(status=400)
+    return render_template(
+        'map.html',
+        query_path=f'/mot.json?year={year}&t1={t1}&t2={t2}',
+        color_map='diverging',
+        display_type='mot',
+        t1=MOT_ENUM[t1],
+        t2=MOT_ENUM[t2],
+    )
 
 @app.route('/population.json', methods=['GET'])
 def population_handler():

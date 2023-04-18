@@ -6,14 +6,16 @@
     <title>Cloropleth</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
       integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link rel="stylesheet" href="/static/style.css" />
     <style>
       #map {
         height: 768px;
-        width: 512px;
+        width: 100%;
       }
 
       .info {
         background-color: white;
+        color: black;
         margin: 8px;
         padding: 4px 8px;
         border-radius: 4px;
@@ -26,6 +28,10 @@
     <div id="map"></div>
     <script>
       queryPath = '{{ query_path|safe }}';
+      colorMap = '{{ color_map|safe }}';
+      displayType = '{{ display_type|safe }}';
+      t1 = '{{ t1|safe }}';
+      t2 = '{{ t2|safe }}';
     </script>
     <script src="/static/cloropleth.js"></script>
   </body>
