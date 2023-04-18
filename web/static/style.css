@@ -1,0 +1,41 @@
+:root {
+  --fg: #cdf;
+  --bg: #225;
+}
+
+@media(prefers-color-scheme: light) {
+  :root {
+    --fg: #225;
+    --bg: #cdf;
+  }
+}
+
+body {
+  font-family: sans-serif;
+  margin: 32px;
+
+  color: var(--fg);
+  background-color: var(--bg);
+
+  text-align: center;
+  font-size: 16px;
+}
+
+table, th, td {
+  border: 1px solid var(--fg);
+}
+
+input[type=submit] {
+  background-color: var(--fg);
+  color: var(--bg);
+  border: none;
+  padding: 6px 12px;
+  display: inline-block;
+  margin: 8px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+input[type=submit]:hover {
+  cursor: pointer;
+}

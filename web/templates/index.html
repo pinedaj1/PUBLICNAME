@@ -4,14 +4,41 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Database Homepage</title>
+        <link rel="stylesheet" href="/static/style.css" />
     </head>
     <body>
         <h1>Database Homepage</h1>
+        <hr/>
         Which municipality do you want to search for?
         <form action="/municipality" method="POST">
             <select name="mno">
             {% for m in municipalities %}
                 <option value="{{ m.mno }}">{{ macros.municipality(m.name, m.county) }}</option>
+            {% endfor %}
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+        Alternatively, search statewide data:
+        <form action="/ghg" method="POST">
+            <select name="year">
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+            <input type="submit" value="Search" />
+        </form>
+        <form action="/mot2" method="POST">
+            <select name="year">
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+            <select name="t1">
+            {% for t in types %}
+                <option value="{{ t.index }}">{{ t.name }}</option>
+            {% endfor %}
+            </select>
+            <select name="t2">
+            {% for t in types %}
+                <option value="{{ t.index }}">{{ t.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Search" />

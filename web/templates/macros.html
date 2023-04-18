@@ -1,2 +1,23 @@
 {% macro municipality(name, county) %}{{ name }}, {{ county }} County{% endmacro %}
 {% macro municipality_year(name, county, year) %}{{ municipality(name, county) }}, {{ year }}{% endmacro %}
+
+{% macro year_table(table) %}
+  <table>
+    <thead>
+      <tr>
+        {% for v in table.header %}
+          <th>{{ v }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table.rows %}
+        <tr>
+          {% for v in row %}
+            <td>{{ v }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endmacro %}
