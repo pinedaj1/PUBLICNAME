@@ -55,6 +55,7 @@ import json
 import psycopg2
 import matplotlib
 import matplotlib.pyplot as plt
+import multiprocessing as mp
 import numpy as np
 from base64 import b64encode
 from collections import namedtuple
@@ -132,11 +133,19 @@ class TypedYearTable(YearTable):
             year_rows[year][self.types.index(type) + 1] = value
         self.rows = sorted(year_rows.values())
 
-    def bar_chart(self, title):
-        plt.cla()
-        plt.clf()
-        bar_chart(title, [row[0] for row in self.rows], self.types, [row[1:] for row in self.rows])
-        return render_plot()
+    def bar_chart(self, title, id, queue):
+        # run in separate process because matplotlib leaks memory with repeated use
+        years = [row[0] for row in self.rows]
+        types = self.types
+        rows = [row[1:] for row in self.rows]
+        def worker():
+            plt.cla()
+            plt.clf()
+            bar_chart(title, years, types, rows)
+            queue.put((id, render_plot()))
+        proc = mp.Process(target=worker)
+        proc.start()
+        return proc
 
 def bar_chart(title, years, types, rows):
     plt.figure(figsize=(8, 8))
@@ -178,7 +187,10 @@ def mot():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
     year_table = TypedYearTable('Percentage', 'means_of_transportation', mno)
-    chart = year_table.bar_chart('Percentage of Total Means of Transportation')
+    queue = mp.Queue()
+    proc = year_table.bar_chart('Percentage of Total Means of Transportation', '', queue)
+    _, chart = queue.get()
+    proc.join()
     return render_template('mot.html', name=name, county=county, chart=chart, year_table=year_table)
 
 @app.route('/vmt', methods=['POST'])
@@ -188,9 +200,16 @@ def vmt():
     miles_year_table = TypedYearTable('Miles', 'on_road_vehicle', mno)
     if len(miles_year_table.rows) == 0:
         return Response(status=400)
-    miles_chart = miles_year_table.bar_chart('Miles Traveled by On-road Vehicles',)
     co2_year_table = TypedYearTable('CO2', 'on_road_vehicle', mno)
-    co2_chart = co2_year_table.bar_chart('CO2 Emissions in Tons by On-road Vehicles',)
+    queue = mp.Queue()
+    miles_proc = miles_year_table.bar_chart('Miles Traveled by On-road Vehicles', 'miles', queue)
+    co2_proc = co2_year_table.bar_chart('CO2 Emissions in Tons by On-road Vehicles', 'co2', queue)
+    id1, chart1 = queue.get()
+    id2, chart2 = queue.get()
+    miles_chart = chart1 if id1 == 'miles' else chart2
+    co2_chart = chart2 if id2 == 'c02' else chart1
+    miles_proc.join()
+    co2_proc.join()
     return render_template('vmt.html', name=name, county=county, miles_year_table=miles_year_table, miles_chart=miles_chart, co2_year_table=co2_year_table,co2_chart=co2_chart)
 
 @app.route('/ev', methods=['POST'])
