@@ -26,5 +26,22 @@
             </select>
             <input type="submit" value="Search" />
         </form>
+        <form action="/mot2" method="POST">
+            <select name="year">
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+            <select name="t1">
+            {% for t in types %}
+                <option value="{{ t.index }}">{{ t.name }}</option>
+            {% endfor %}
+            </select>
+            <select name="t2">
+            {% for t in types %}
+                <option value="{{ t.index }}">{{ t.name }}</option>
+            {% endfor %}
+            </select>
+            <input type="submit" value="Search" />
+        </form>
     </body>
 </html>

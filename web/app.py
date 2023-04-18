@@ -110,6 +110,11 @@ def render_plot():
     f.seek(0)
     return b64encode(f.getbuffer()).decode()
 
+def get_sql_enum(name):
+    return [row[0] for row in connect(f'SELECT UNNEST(ENUM_RANGE(NULL::{name}));')]
+
+MOT_ENUM = get_sql_enum('means_of_transportation_type')
+
 class YearTable:
     def __init__(self, columns, table, mno):
         self.header = ['Year'] + list(columns)
@@ -118,7 +123,7 @@ class YearTable:
 class TypedYearTable(YearTable):
     def __init__(self, column, table, mno):
         super().__init__(['Type', column], table, mno)
-        self.types = [row[0] for row in connect(f'SELECT UNNEST(ENUM_RANGE(NULL::{table}_type));')]
+        self.types = get_sql_enum(table + '_type')
         self.header = ['Year'] + self.types
         year_rows = {}
         for year, type, value in self.rows:
@@ -165,7 +170,8 @@ Municipality = namedtuple('Municipality', ('mno', 'name', 'county'))
 @app.route('/')
 def home():
     municipalities = [Municipality(*row) for row in connect('SELECT mno, name, county FROM municipality;')]
-    return render_template('index.html', municipalities=municipalities)
+    types = [{'index': i, 'name': v } for i, v in enumerate(MOT_ENUM)]
+    return render_template('index.html', municipalities=municipalities, types=types)
 
 @app.route('/mot', methods=['POST'])
 def mot():
@@ -200,6 +206,13 @@ def ghg():
     year = int(request.form['year'])
     return render_template('map.html', query_path=f'/ghg.json?year={year}')
 
+@app.route('/mot2', methods=['POST'])
+def mot2():
+    year = int(request.form['year'])
+    t1 = int(request.form['t1'])
+    t2 = int(request.form['t2'])
+    return render_template('map.html', query_path=f'/mot.json?year={year}&t1={t1}&t2={t2}')
+
 @app.route('/population.json', methods=['GET'])
 def population_handler():
     # cast year to int to avoid injection
@@ -211,6 +224,27 @@ def ghg_json():
     # cast year to int to avoid injection
     year = int(request.args.get('year'))
     return json.dumps({i[0]: i[1] for i in connect(f'SELECT mno, co2 FROM population WHERE year = {year};')})
+
+@app.route('/mot.json', methods=['GET'])
+def mot_json():
+    # cast year to int to avoid injection
+    year = int(request.args.get('year'))
+    t1 = int(request.args.get('t1'))
+    t2 = int(request.args.get('t2'))
+    # validate range
+    if t1 >= len(MOT_ENUM) or t1 < 0 or t2 >= len(MOT_ENUM) or t2 < 0:
+        return Response(status=400)
+    # comparison algorithm: 0 for all t1, 1 for all t2
+    t1_values = connect(f"SELECT mno, percentage FROM means_of_transportation WHERE year = {year} AND type = '{MOT_ENUM[t1]}' ORDER BY mno;")
+    t2_values = connect(f"SELECT mno, percentage FROM means_of_transportation WHERE year = {year} AND type = '{MOT_ENUM[t2]}' ORDER BY mno;")
+    result = {}
+    for t1_row, t2_row in zip(t1_values, t2_values):
+        t1_mno, t1_percentage = t1_row
+        t2_mno, t2_percentage = t2_row
+        # should be guaranteed by ORDER BY
+        assert t1_mno == t2_mno
+        result[t1_mno] = ((float(t1_percentage) - float(t2_percentage)) + 100.0) / 200.0
+    return json.dumps(result)
 
 @app.route('/transportation.json', methods=['GET'])
 def transportation_handler():

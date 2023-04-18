@@ -23,11 +23,18 @@ Promise.all([
     var pop = values[1];
     var names = values[2];
     // find max population for calculating range
-    var max = -1;
+    var max = -Infinity;
+    var min = Infinity;
     var properties = Object.getOwnPropertyNames(pop);
     for (var i = 0; i < properties.length; i++) {
         var p = properties[i];
         if (pop[p] > max) max = pop[p];
+        if (pop[p] < min) min = pop[p];
+    }
+    var range = max - min;
+    if (min - max == 0) {
+        // avoid divide by zero, make range be one
+        range = 1.0;
     }
     // geojson object
     var info = L.control();
@@ -44,21 +51,11 @@ Promise.all([
             this._div.textContent = 'Hover over a municipality';
         }
     };
-    function rescale(x) {
-        // divide by max to refit to [0, 1]
-        x /= max;
-        // adjust to remove effect of outliers
-        x = (1 - x);
-        x = x * x * x * x * x;
-        x = 1 - x;
-        x *= 255;
-        return x;
-    }
     info.addTo(leafletMap);
     var gj = L.geoJson(geo, {
         style: function (feature) {
             // logarithmic scale to reduce effect of outliers
-            var color = 'rgba(0,0,' + rescale(pop[feature.properties.mno]) + ',1)';
+            var color = 'rgba(0,0,' + (255 * (pop[feature.properties.mno] - min) / range) + ',1)';
             return {
                 fillColor: color,
                 weight: 1,
