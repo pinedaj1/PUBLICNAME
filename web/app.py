@@ -59,9 +59,8 @@ import numpy as np
 from base64 import b64encode
 from collections import namedtuple
 from config import config
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 from io import BytesIO
-from textwrap import wrap
 
 matplotlib.use('agg')
 
@@ -162,10 +161,6 @@ def municipality():
     return render_template('municipality.html', mno=mno, name=name, county=county, have_vmt=have_vmt)
 
 Municipality = namedtuple('Municipality', ('mno', 'name', 'county'))
-VMT = namedtuple('VMT', ('type', 'miles', 'co2'))
-
-MOT_ENUM = [row[0] for row in connect('SELECT UNNEST(ENUM_RANGE(NULL::means_of_transportation_type));')]
-VMT_ENUM = [row[0] for row in connect('SELECT UNNEST(ENUM_RANGE(NULL::on_road_vehicle_type));')]
 
 @app.route('/')
 def home():
@@ -186,7 +181,7 @@ def vmt():
     name, county = name_and_county(mno)
     miles_year_table = TypedYearTable('Miles', 'on_road_vehicle', mno)
     if len(miles_year_table.rows) == 0:
-        raise RuntimeError('no years available')
+        return Response(status=400)
     miles_chart = miles_year_table.bar_chart('Miles Traveled by On-road Vehicles',)
     co2_year_table = TypedYearTable('CO2', 'on_road_vehicle', mno)
     co2_chart = co2_year_table.bar_chart('CO2 Emissions in Tons by On-road Vehicles',)

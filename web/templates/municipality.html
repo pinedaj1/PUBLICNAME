@@ -4,32 +4,30 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Available data for {{ macros.municipality(name, county) }}</title>
+        <link rel="stylesheet" href="/static/style.css" />
     </head>
     <body>
         <h1>Available data for {{ macros.municipality(name, county) }}</h1>
 
-        <h2>Means of Transportation to Work</h2>
         <form action="/mot" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
-            <input type="submit" value="View means of transportation" />
+            <input type="submit" value="Means of Transportation to Work" />
         </form>
 
         {% if have_vmt %}
-        <h2>Vehicle Miles Traveled and GHG emissions</h2>
         <form action="/vmt" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
-            <input type="submit" value="View emissions" />
+            <input type="submit" value="Emissions and Miles Traveled of On-Road Vehicles" />
         </form>
         {% endif %}
 
-        <h2>EV Ownership and Population</h2>
         <form action="/ev" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
             <select name="year">
                 <option value="2015">2015</option>
                 <option value="2020">2020</option>
             </select>
-            <input type="submit" value="Search" />
+            <input type="submit" value="EV Ownership Data >" />
         </form>
     </body>
 </html>
