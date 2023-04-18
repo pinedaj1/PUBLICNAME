@@ -2,4 +2,15 @@
 set -e
 cd db_scripts
 python3 convert.py
-echo SQL file is at db_scripts/initialize_db.sql
+
+createdb njdata
+database="njdata"
+psql -d $database -c "\i initialize_db.sql"
+cd -
+
+echo
+echo successfully created database called njdata
+echo creating web gui...
+echo
+
+. run_server.sh
