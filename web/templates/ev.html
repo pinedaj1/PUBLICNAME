@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html>{% import 'macros.html' as macros %}
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>EV ownership for {{ macros.municipality_year(name, county, year) }}</title>
-        <style>
-            th, td {
-                border: 1px solid black;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>EV ownership for {{ macros.municipality_year(name, county, year) }}</h1>
-        EV ownership: {{ evs }}
-        <br/>
-        Personal vehicles: {{ personal }}
-        <br/>
-        Population: {{ pop }}
-    </body>
-</html>
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+{% block title %}EV Ownership for {{ macros.municipality(name, county) }}{% endblock %}
+{% block content %}
+    EV ownership: {{ evs }}
+    <br/>
+    Personal vehicles: {{ personal }}
+    <br/>
+    Population: {{ pop }}
+{% endblock %}
