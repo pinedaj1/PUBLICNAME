@@ -195,11 +195,22 @@ def ev():
     evs, personal, pop = connect(f'SELECT evs, personalvehicles, pop FROM population WHERE mno = {mno} AND year = {year};')[0]
     return render_template('ev.html', name=name, county=county, year=year, evs=evs, personal=personal, pop=pop)
 
+@app.route('/ghg', methods=['POST'])
+def ghg():
+    year = int(request.form['year'])
+    return render_template('map.html', query_path=f'/ghg.json?year={year}')
+
 @app.route('/population.json', methods=['GET'])
 def population_handler():
     # cast year to int to avoid injection
     year = int(request.args.get('year'))
     return json.dumps({i[0]: i[1] for i in connect(f'SELECT mno, pop FROM population WHERE year = {year};')})
+
+@app.route('/ghg.json', methods=['GET'])
+def ghg_json():
+    # cast year to int to avoid injection
+    year = int(request.args.get('year'))
+    return json.dumps({i[0]: i[1] for i in connect(f'SELECT mno, co2 FROM population WHERE year = {year};')})
 
 @app.route('/transportation.json', methods=['GET'])
 def transportation_handler():
