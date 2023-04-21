@@ -8,8 +8,10 @@
     </head>
     <body>
         <h1>Database Homepage</h1>
+        <!-- Description goes here -->
+        <!-- <p></p> -->
         <hr/>
-        Which municipality do you want to search for?
+        <h2>Which municipality do you want to search for?</h2>
         <form action="/municipality" method="POST">
             <select name="mno">
             {% for m in municipalities %}
@@ -18,14 +20,17 @@
             </select>
             <input type="submit" value="Search" />
         </form>
-        Alternatively, search statewide data:
+        <h2>Alternatively, search statewide data:</h2>
+        <h3>CO₂ emissions</h3>
         <form action="/ghg" method="POST">
             <select name="year">
+                Year:
                 <option value="2015">2015</option>
                 <option value="2020">2020</option>
             </select>
             <input type="submit" value="Search" />
         </form>
+        <h3>Compare two means of transportation to work</h3>
         <form action="/mot2" method="POST">
             <select name="year">
                 <option value="2015">2015</option>
