@@ -2,6 +2,7 @@
 {% import 'macros.html' as macros %}
 {% block title %}Vehicle miles traveled for {{ macros.municipality(name, county) }}{% endblock %}
 {% block content %}
+{{ macros.back_to_municipality(mno) }}
 <h2>Miles</h2>
 {{ macros.year_table(miles_year_table) }}
 <h2>CO2</h2>

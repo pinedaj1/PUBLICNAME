@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html>{% import 'macros.html' as macros %}
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,6 +23,7 @@
     </style>
   </head>
   <body>
+    {{ macros.back_to_homepage() }}
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
       integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <div id="map"></div>

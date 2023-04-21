@@ -9,6 +9,8 @@
     <body>
         <h1>Available data for {{ macros.municipality(name, county) }}</h1>
 
+        {{ macros.back_to_homepage() }}
+
         <form action="/mot" method="POST">
             <input type="hidden" name="mno" value="{{ mno }}" />
             <input type="submit" value="Means of Transportation to Work" />

@@ -205,7 +205,7 @@ def mot():
     proc = year_table.bar_chart('Percentage of Total Means of Transportation', '', queue)
     _, chart = queue.get()
     proc.join()
-    return render_template('mot.html', name=name, county=county, chart=chart, year_table=year_table)
+    return render_template('mot.html', mno=mno, name=name, county=county, chart=chart, year_table=year_table)
 
 @app.route('/vmt', methods=['POST'])
 def vmt():
@@ -224,7 +224,7 @@ def vmt():
     co2_chart = chart2 if id2 == 'co2' else chart1
     miles_proc.join()
     co2_proc.join()
-    return render_template('vmt.html', name=name, county=county, miles_year_table=miles_year_table, miles_chart=miles_chart, co2_year_table=co2_year_table,co2_chart=co2_chart)
+    return render_template('vmt.html', mno=mno, name=name, county=county, miles_year_table=miles_year_table, miles_chart=miles_chart, co2_year_table=co2_year_table,co2_chart=co2_chart)
 
 @app.route('/ev', methods=['POST'])
 def ev():
@@ -240,7 +240,7 @@ def ev():
     per_person_chart = chart2 if id2 == 'per_person' else chart1
     ev_percentage_proc.join()
     per_person_proc.join()
-    return render_template('ev.html', name=name, county=county, year_table=year_table, ev_percentage_chart=ev_percentage_chart, per_person_chart=per_person_chart)
+    return render_template('ev.html', mno=mno, name=name, county=county, year_table=year_table, ev_percentage_chart=ev_percentage_chart, per_person_chart=per_person_chart)
 
 @app.route('/ghg', methods=['POST'])
 def ghg():

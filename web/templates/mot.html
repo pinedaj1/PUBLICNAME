@@ -2,6 +2,8 @@
 {% import 'macros.html' as macros %}
 {% block title %}Means of transportation for {{ macros.municipality(name, county) }}{% endblock %}
 {% block content %}
+{{ macros.back_to_homepage() }}
+{{ macros.back_to_municipality(mno) }}
 {{ macros.year_table(year_table) }}
 <img src="data:image/png;base64,{{ chart }}"/>
 {% endblock %}
