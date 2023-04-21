@@ -43,8 +43,7 @@ try:
             if connect(f'SELECT * FROM on_road_vehicle WHERE mno = {mno}'):
                 test_post('vmt', {'mno': mno})
             # test ev endpoints
-            test_post('ev', {'mno': mno, 'year': 2015})
-            test_post('ev', {'mno': mno, 'year': 2020})
+            test_post('ev', {'mno': mno})
 finally:
     kill(server.pid, SIGINT)
     server.wait()
