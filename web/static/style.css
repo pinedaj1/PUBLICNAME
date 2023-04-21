@@ -21,6 +21,11 @@ body {
   font-size: 16px;
 }
 
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
 table, th, td {
   border: 1px solid var(--fg);
 }
@@ -38,4 +43,8 @@ input[type=submit] {
 
 input[type=submit]:hover {
   cursor: pointer;
+}
+
+img {
+  padding-top: 32px;
 }

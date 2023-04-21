@@ -174,9 +174,7 @@ def bar_chart(title, years, types, rows):
     plt.title(title)
     plt.xticks(indices, types, rotation=90)
 
-    yticks, _ = plt.yticks()
-    if any('e' in str(tick) for tick in yticks):
-        plt.yticks(yticks, ['%.2f' % tick if (int(tick) != tick) else '%d' % tick for tick in yticks])
+    plt.gca().ticklabel_format(style='plain', axis='y')
 
     plt.legend(years)
 
