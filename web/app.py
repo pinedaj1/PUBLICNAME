@@ -121,6 +121,19 @@ class YearTable:
         self.header = ['Year'] + list(columns)
         self.rows = connect(f'SELECT year, {", ".join(columns)} FROM {table} WHERE mno = {mno};')
 
+    def bar_chart(self, title, id, calculation, queue):
+        # run in separate process because matplotlib leaks memory with repeated use
+        years = [row[0] for row in self.rows]
+        rows = [calculation(row[1:]) for row in self.rows]
+        def worker():
+            plt.cla()
+            plt.clf()
+            bar_chart(title, years, [''], rows)
+            queue.put((id, render_plot()))
+        proc = mp.Process(target=worker)
+        proc.start()
+        return proc
+
 class TypedYearTable(YearTable):
     def __init__(self, column, table, mno):
         super().__init__(['Type', column], table, mno)
@@ -162,7 +175,8 @@ def bar_chart(title, years, types, rows):
     plt.xticks(indices, types, rotation=90)
 
     yticks, _ = plt.yticks()
-    plt.yticks(yticks, ['%.2f' % tick if (int(tick) != tick) else '%d' % tick for tick in yticks])
+    if any('e' in str(tick) for tick in yticks):
+        plt.yticks(yticks, ['%.2f' % tick if (int(tick) != tick) else '%d' % tick for tick in yticks])
 
     plt.legend(years)
 
@@ -207,7 +221,7 @@ def vmt():
     id1, chart1 = queue.get()
     id2, chart2 = queue.get()
     miles_chart = chart1 if id1 == 'miles' else chart2
-    co2_chart = chart2 if id2 == 'c02' else chart1
+    co2_chart = chart2 if id2 == 'co2' else chart1
     miles_proc.join()
     co2_proc.join()
     return render_template('vmt.html', name=name, county=county, miles_year_table=miles_year_table, miles_chart=miles_chart, co2_year_table=co2_year_table,co2_chart=co2_chart)
@@ -216,8 +230,17 @@ def vmt():
 def ev():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
-    year_table = YearTable(["evs", "personalvehicles", "pop"], "population", mno)
-    return render_template('ev.html', name=name, county=county, year_table=year_table)
+    year_table = YearTable(["EVs", "PersonalVehicles", "Pop", "CO2"], "population", mno)
+    queue = mp.Queue()
+    ev_percentage_proc = year_table.bar_chart('Percentage of EVs out of Personal Vehicles', 'ev_percentage', lambda row: 100 * (row[0] / row[1]), queue)
+    id1, chart1 = queue.get()
+    per_person_proc = year_table.bar_chart('Number of Vehicles per Person', 'per_person', lambda row: (row[1] / row[2]), queue)
+    id2, chart2 = queue.get()
+    ev_percentage_chart = chart1 if id1 == 'ev_percentage' else chart2
+    per_person_chart = chart2 if id2 == 'per_person' else chart1
+    ev_percentage_proc.join()
+    per_person_proc.join()
+    return render_template('ev.html', name=name, county=county, year_table=year_table, ev_percentage_chart=ev_percentage_chart, per_person_chart=per_person_chart)
 
 @app.route('/ghg', methods=['POST'])
 def ghg():
