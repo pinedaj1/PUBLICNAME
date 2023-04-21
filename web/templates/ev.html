@@ -2,9 +2,5 @@
 {% import 'macros.html' as macros %}
 {% block title %}EV Ownership for {{ macros.municipality(name, county) }}{% endblock %}
 {% block content %}
-    EV ownership: {{ evs }}
-    <br/>
-    Personal vehicles: {{ personal }}
-    <br/>
-    Population: {{ pop }}
+{{ macros.year_table(year_table) }}
 {% endblock %}

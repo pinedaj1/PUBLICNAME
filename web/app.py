@@ -216,9 +216,8 @@ def vmt():
 def ev():
     mno = int(request.form['mno'])
     name, county = name_and_county(mno)
-    year = int(request.form['year'])
-    evs, personal, pop = connect(f'SELECT evs, personalvehicles, pop FROM population WHERE mno = {mno} AND year = {year};')[0]
-    return render_template('ev.html', name=name, county=county, year=year, evs=evs, personal=personal, pop=pop)
+    year_table = YearTable(["evs", "personalvehicles", "pop"], "population", mno)
+    return render_template('ev.html', name=name, county=county, year_table=year_table)
 
 @app.route('/ghg', methods=['POST'])
 def ghg():
