@@ -3,9 +3,9 @@ set -e
 cd db_scripts
 python3 convert.py
 
-dropdb njdata
-createdb njdata
 database="njdata"
+dropdb --if-exists $database
+createdb $database
 psql -d $database -c "\i initialize_db.sql"
 cd -
 
