@@ -48,3 +48,7 @@ input[type=submit]:hover {
 img {
   padding-top: 32px;
 }
+
+.legend {
+  max-width: 100px;
+}

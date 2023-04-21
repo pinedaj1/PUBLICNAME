@@ -243,7 +243,7 @@ def ev():
 @app.route('/ghg', methods=['POST'])
 def ghg():
     year = int(request.form['year'])
-    return render_template('map.html', query_path=f'/ghg.json?year={year}', color_map='heatmap', display_type='co2')
+    return render_template('map.html', query_path=f'/ghg.json?year={year}', color_map='heatmap', display_type='co2', title=f'CO₂ emissions in {year}')
 
 @app.route('/mot2', methods=['POST'])
 def mot2():
@@ -260,6 +260,7 @@ def mot2():
         display_type='mot',
         t1=MOT_ENUM[t1],
         t2=MOT_ENUM[t2],
+        title=f'Compare {MOT_ENUM[t1]} to {MOT_ENUM[t2]} in {year}',
     )
 
 @app.route('/population.json', methods=['GET'])

@@ -67,12 +67,16 @@ Promise.all([
         if (pop[p] > max) max = pop[p];
         if (pop[p] < min) min = pop[p];
     }
-    // balance both ends of range if it's a diverging, so that 0.5 stays centered
-    if (colorMap == 'diverging') {
+    if (colorMap == 'heatmap') {
+        // if heatmap, minimum will be set to 0 so the legend doesn't start above 0
+        min = 0;
+    } else {
+        // balance both ends of range if it's a diverging, so that 0.5 stays centered
         var length = Math.max(Math.abs(max - 0.5), Math.abs(min - 0.5));
+        // adjust to nearest 10%
+        length = 0.5 - Math.sign(0.5 - length) * Math.floor(20 * Math.abs(0.5 - length)) * 0.05;
         max = 0.5 + length;
         min = 0.5 - length;
-        console.log(min, max, length);
     }
     var range = max - min;
     // geojson object
@@ -90,41 +94,43 @@ Promise.all([
             this._div.textContent = 'Hover over a municipality';
         }
     };
+    function getColor(scaledValue) {
+        var color;
+        if (colorMap == 'diverging') {
+            // weight data to move it further from center, making variations more noticable
+            for (var i = 0; i < 2; i++) {
+                var xx = scaledValue * scaledValue;
+                scaledValue = 3 * xx - 2 * (xx * scaledValue);
+            }
+        } else {
+            // weight data to lower the effect of outliers
+            scaledValue = Math.sqrt(scaledValue);
+        }
+        if (scaledValue < 0.5) {
+            var a = 2 * scaledValue;
+            var b = 1 - a;
+            color = selectedMap[1].map(function (value, index) {
+                return value * a + b * selectedMap[0][index];
+            });
+        } else if (scaledValue < 1.0) {
+            var a = 2 * (scaledValue - 0.5);
+            var b = 1 - a;
+            color = selectedMap[2].map(function (value, index) {
+                return value * a + b * selectedMap[1][index];
+            });
+        } else {
+            color = selectedMap[2];
+        }
+        return 'rgba(' + color.join(',') + ',1)';
+    }
     info.addTo(leafletMap);
     var gj = L.geoJson(geo, {
         style: function (feature) {
             var scaledValue = (range == 0) ? defaultValues[colorMap] : (pop[feature.properties.mno] - min) / range;
             // if we are using a diverging map, we will weight the data to push colors away from center
-            var color;
-            if (colorMap == 'diverging') {
-                // weight data to move it further from center, making variations more noticable
-                for (var i = 0; i < 3; i++) {
-                    var xx = scaledValue * scaledValue;
-                    scaledValue = 3 * xx - 2 * (xx * scaledValue);
-                }
-            } else {
-                // weight data to lower the effect of outliers
-                scaledValue = Math.sqrt(Math.sqrt(scaledValue));
-            }
-            if (scaledValue < 0.5) {
-                var a = 2 * scaledValue;
-                var b = 1 - a;
-                color = selectedMap[1].map(function(value, index) {
-                    return value * a + b * selectedMap[0][index];
-                });
-            } else if (scaledValue < 1.0) {
-                var a = 2 * (scaledValue - 0.5);
-                var b = 1 - a;
-                color = selectedMap[2].map(function(value, index) {
-                    return value * a + b * selectedMap[1][index];
-                });
-            } else {
-                color = selectedMap[2];
-            }
-            console.log(scaledValue);
-            var colorString = 'rgba(' + color.join(',') + ',1)';
+            var color = getColor(scaledValue);
             return {
-                fillColor: colorString,
+                fillColor: color,
                 weight: 1,
                 opacity: 1,
                 color: 'white',
@@ -154,4 +160,18 @@ Promise.all([
             });
         }
     }).addTo(leafletMap);
+    var legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info legend');
+        var gradient = 'width:32px;margin:auto;height:200px;background:linear-gradient(';
+        var gradients = [];
+        for (var i = 0; i <= 20; i++) {
+            var scaledValue = (20 - i) / 20;
+            gradients.push(getColor(scaledValue) + ' ' + (i * 5) + '%');
+        }
+        gradient += gradients.join(',') + ')';
+        div.innerHTML += '<h4>Legend</h4>' + display(max) + '<div style="'+gradient+'"></div>' + display(min);
+        return div;
+    };
+    legend.addTo(leafletMap);
 });
