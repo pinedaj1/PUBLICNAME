@@ -15,16 +15,25 @@ var colorMaps = {
 };
 
 function displayCO2(value) {
-    return value + ' metric tons of CO2';
+    return value + ' metric tons of CO₂';
+}
+
+function workedVia(name) {
+    if (name.startsWith('worked')) {
+        return name;
+    } else if (name == 'walked') {
+        name = 'walking';
+    }
+    return 'got to work via ' + name;
 }
 
 function displayMeansOfTransportation(value) {
     if (value < 0.5) {
         var percentage = 100 - (200 * value);
-        return percentage.toFixed(2) + '% more worked via ' + t2;
+        return percentage.toFixed(2) + '% more ' + workedVia(t2);
     } else if (value > 0.5) {
         var percentage = 100 - (200 * (1 - value));
-        return percentage.toFixed(2) + '% more worked via ' + t1;
+        return percentage.toFixed(2) + '% more ' + workedVia(t1);
     } else {
         return 'Equal percentages';
     }
@@ -70,10 +79,14 @@ Promise.all([
     if (colorMap == 'heatmap') {
         // if heatmap, minimum will be set to 0 so the legend doesn't start above 0
         min = 0;
+        // adjust max to nearest 10,000 above
+        if ((max % 10000) != 0) {
+            max += 10000 - (max % 10000);
+        }
     } else {
         // balance both ends of range if it's a diverging, so that 0.5 stays centered
         var length = Math.max(Math.abs(max - 0.5), Math.abs(min - 0.5));
-        // adjust to nearest 10%
+        // adjust to nearest 10% above
         length = 0.5 - Math.sign(0.5 - length) * Math.floor(20 * Math.abs(0.5 - length)) * 0.05;
         max = 0.5 + length;
         min = 0.5 - length;
@@ -144,7 +157,7 @@ Promise.all([
                     var layer = e.target;
                     layer.setStyle({
                         weight: 5,
-                        color: 'black',
+                        color: 'white',
                         dashArray: '',
                     });
                     layer.bringToFront();
