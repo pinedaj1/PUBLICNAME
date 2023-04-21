@@ -48,3 +48,11 @@ input[type=submit]:hover {
 img {
   padding-top: 32px;
 }
+
+.back_button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  box-shadow: 0 0 4px #111;
+  border-radius: 8px;
+}

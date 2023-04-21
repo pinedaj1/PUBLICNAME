@@ -24,14 +24,14 @@
 
 {% macro back_to_homepage() %}
 <form action="/" method="GET">
-  <input type="submit" value="To Home Page" />
+  <input type="submit" value="To Home Page" class="back_button"/>
 </form>
 {% endmacro %}
 
 
 {% macro back_to_municipality(mno) %}
 <form action="/municipality" method="POST">
-  <input type="hidden" name="mno" value="{{ mno }}" />
-  <input type="submit" value="Back to All Municipality Data" />
+  <input type="hidden" name="mno" value="{{ mno }}"/>
+  <input type="submit" value="Back to All Municipality Data" class="back_button"/>
 </form>
 {% endmacro %}
