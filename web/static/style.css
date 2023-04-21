@@ -61,3 +61,11 @@ img {
   box-shadow: 0 0 4px #111;
   border-radius: 8px;
 }
+
+footer {
+  position:fixed;
+  left:0px;
+  bottom:20px;
+  height:50px;
+  width:100%;
+}
