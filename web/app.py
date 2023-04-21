@@ -62,6 +62,8 @@ from collections import namedtuple
 from config import config
 from flask import Flask, render_template, request, Response
 from io import BytesIO
+from flask import redirect
+import os
 
 matplotlib.use('agg')
 
@@ -243,7 +245,7 @@ def ev():
 @app.route('/ghg', methods=['POST'])
 def ghg():
     year = int(request.form['year'])
-    return render_template('map.html', query_path=f'/ghg.json?year={year}', color_map='heatmap', display_type='co2')
+    return render_template('map.html', query_path=f'/ghg.json?year={year}', color_map='heatmap', display_type='co2', title=f'CO₂ emissions in {year}')
 
 @app.route('/mot2', methods=['POST'])
 def mot2():
@@ -260,6 +262,7 @@ def mot2():
         display_type='mot',
         t1=MOT_ENUM[t1],
         t2=MOT_ENUM[t2],
+        title=f'Compare {MOT_ENUM[t1]} to {MOT_ENUM[t2]} in {year}',
     )
 
 @app.route('/population.json', methods=['GET'])
@@ -307,5 +310,12 @@ def names_handler():
     # get data from database
     return json.dumps({i[0]: { 'name': i[1], 'county': i[2] } for i in connect(f'SELECT * FROM municipality;')})
 
+
+@app.route("/redirectURL", methods=["GET"])
+def redirectURL():
+    return redirect("https://www.sustainablejersey.com/resources/data-center/sustainable-jersey-data-resources/", code=302)
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    port = int(os.environment.get('PORT', 5000))
+    app.run(debug = True, host='0.0.0.0', port=port)
+

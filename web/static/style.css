@@ -49,6 +49,11 @@ img {
   padding-top: 32px;
 }
 
+
+.legend {
+  max-width: 100px;
+}
+
 .back_button {
   position: fixed;
   bottom: 0;
