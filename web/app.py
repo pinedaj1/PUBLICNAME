@@ -62,6 +62,8 @@ from collections import namedtuple
 from config import config
 from flask import Flask, render_template, request, Response
 from io import BytesIO
+from flask import redirect
+import os
 
 matplotlib.use('agg')
 
@@ -308,5 +310,12 @@ def names_handler():
     # get data from database
     return json.dumps({i[0]: { 'name': i[1], 'county': i[2] } for i in connect(f'SELECT * FROM municipality;')})
 
+
+@app.route("/redirectURL", methods=["GET"])
+def redirectURL():
+    return redirect("https://www.sustainablejersey.com/resources/data-center/sustainable-jersey-data-resources/", code=302)
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    port = int(os.environment.get('PORT', 5000))
+    app.run(debug = True, host='0.0.0.0', port=port)
+
