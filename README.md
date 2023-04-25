@@ -5,9 +5,9 @@
 
 ## Usage Instructions
 
-The database and website involves the use of python and postgres15, as well as several python packages: flask, psycopg2, matplotlib. Make sure these are set up and the dependencies are installed.
+The database and website involves the use of `python` and `postgres15`, as well as several python packages: `flask`, `psycopg2`, `matplotlib`. Make sure these are set up and the dependencies are installed.
 
-The database creation, population, and server deployment can all be done by running `make_database.sh` in a venv environment. After running the script, the server will start and can be accessed by going to http://127.0.0.1:5000.
+The database creation, population, and server deployment can all be done by running `make_database.sh` in a `venv` environment. After running the script, the server will start and can be accessed by going to http://127.0.0.1:5000.
 
 ## Databases used
 
