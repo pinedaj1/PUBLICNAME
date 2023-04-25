@@ -16,3 +16,8 @@ Various databases from the [Sustainable Jersey Data Center](https://www.sustaina
 Municipality topology data from [NJGIN Open Data](https://njogis-newjersey.opendata.arcgis.com/datasets/newjersey::municipal-boundaries-of-nj)
 
 Topology simplified using [MapShaper](https://mapshaper.org/)
+
+
+## GUI Screenshots
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/HomePage.jpg?raw=true)
