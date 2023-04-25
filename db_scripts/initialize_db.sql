@@ -1,7 +1,3 @@
-DROP TABLE means_of_transportation;
-DROP TABLE on_road_vehicle;
-DROP TABLE population;
-DROP TABLE municipality;
 CREATE TYPE on_road_vehicle_type AS ENUM(
 'combination long-haul truck','combination short-haul truck','intercity bus','light commercial trucks','motor home','motorcycles','passenger cars','passenger trucks','refuse truck','school bus','single unit long-haul truck','single unit short-haul truck','transit bus'
 );
