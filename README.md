@@ -21,3 +21,7 @@ Topology simplified using [MapShaper](https://mapshaper.org/)
 ## GUI Screenshots
 
 ![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/HomePage.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/MunicipalitySearch.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/StateWideSearch.jpg?raw=true)
