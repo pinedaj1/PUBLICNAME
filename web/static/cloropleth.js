@@ -173,7 +173,16 @@ Promise.all([
                     info.update(null);
                 },
                 click: function (e) {
-                    leafletMap.fitBounds(e.target.getBounds());
+                    var form = document.createElement('form');
+                    form.style.visibility = 'hidden';
+                    form.method = 'POST';
+                    form.action = '/municipality';
+                    var input = document.createElement('input');
+                    input.name = 'mno';
+                    input.value = feature.properties.mno;
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
                 },
             });
         }
