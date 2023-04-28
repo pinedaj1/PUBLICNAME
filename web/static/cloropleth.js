@@ -1,5 +1,10 @@
 // expect queryPath, colorMap to be defined globally
 
+if (t1 != '' && t2 != '' && t1 == t2) {
+    alert("Can't compare the same types!");
+    history.back();
+}
+
 var colorMaps = {
     diverging: [
         [0, 68, 0],

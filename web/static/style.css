@@ -45,6 +45,14 @@ input[type=submit]:hover {
   cursor: pointer;
 }
 
+select {
+  background: none;
+  border: 1px solid var(--fg);
+  border-radius: 8px;
+  font-size: inherit;
+  color: inherit;
+}
+
 img {
   padding-top: 32px;
 }
@@ -60,6 +68,7 @@ img {
   right: 0;
   box-shadow: 0 0 4px #111;
   border-radius: 8px;
+  z-index: 999999;
 }
 
 footer {

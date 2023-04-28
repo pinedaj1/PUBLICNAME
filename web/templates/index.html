@@ -7,47 +7,55 @@
         <link rel="stylesheet" href="/static/style.css" />
     </head>
     <body>
-        <h1>Database Homepage</h1>
+        <h1>Transportation Database Homepage</h1>
         <!-- Description goes here -->
+        <p>
+            Here you can compare sustainability data across the state or across
+            time within your own municipality. See the emissions effects of
+            transportation and which means of transportation have positive or
+            negative impacts on the environment.
+        </p>
         <!-- <p></p> -->
         <hr/>
-        <h2>Which municipality do you want to search for?</h2>
-        <form action="/municipality" method="POST">
+        <h2>Choose data to view:</h2>
+        <h3><form action="/municipality" method="POST">
+            Municipality data for
             <select name="mno">
             {% for m in municipalities %}
                 <option value="{{ m.mno }}">{{ macros.municipality(m.name, m.county) }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Search" />
-        </form>
-        <h2>Alternatively, search statewide data:</h2>
-        <h3>CO₂ emissions</h3>
-        <form action="/ghg" method="POST">
+        </form></h3>
+        <h3><form action="/ghg" method="POST">
+            Statewide CO₂ emissions in
             <select name="year">
                 Year:
                 <option value="2015">2015</option>
                 <option value="2020">2020</option>
             </select>
             <input type="submit" value="Search" />
-        </form>
-        <h3>Compare two means of transportation to work</h3>
-        <form action="/mot2" method="POST">
+        </form></h3>
+        <h3><form action="/mot2" method="POST">
+            Percentage of people in
             <select name="year">
                 <option value="2015">2015</option>
                 <option value="2020">2020</option>
             </select>
+            getting to work via
             <select name="t1">
             {% for t in types %}
                 <option value="{{ t.index }}">{{ t.name }}</option>
             {% endfor %}
             </select>
+            compared to
             <select name="t2">
             {% for t in types %}
                 <option value="{{ t.index }}">{{ t.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Search" />
-        </form>
+        </form></h3>
         
         <footer>
             Data has been collected from Sustainable Jersey resources
