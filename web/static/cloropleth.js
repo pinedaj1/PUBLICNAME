@@ -57,6 +57,7 @@ function fetchJson(path) {
 }
 // create map
 var leafletMap = L.map('map').setView([40.223841, -74.763624], 8);
+leafletMap.options.minZoom = 7;
 var selectedMap = colorMaps[colorMap];
 // OpenStreetMap background tiles
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -190,7 +191,7 @@ Promise.all([
     var legend = L.control({ position: 'bottomright' });
     legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info legend');
-        var gradient = 'width:32px;margin:auto;height:200px;background:linear-gradient(';
+        var gradient = 'width:5dvw;margin:auto;height:30dvh;background:linear-gradient(';
         var gradients = [];
         for (var i = 0; i <= 20; i++) {
             var scaledValue = (20 - i) / 20;
