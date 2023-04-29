@@ -8,14 +8,12 @@
     </head>
     <body>
         <h1>Transportation Database Homepage</h1>
-        <!-- Description goes here -->
         <p>
             Here you can compare sustainability data across the state or across
             time within your own municipality. See the emissions effects of
             transportation and which means of transportation have positive or
             negative impacts on the environment.
         </p>
-        <!-- <p></p> -->
         <hr/>
         <h2>Choose data to view:</h2>
         <h3><form action="/municipality" method="POST">
@@ -56,14 +54,13 @@
             </select>
             <input type="submit" value="Search" />
         </form></h3>
-        
-        <footer>
-            Data has been collected from Sustainable Jersey resources
-            <form> 
-                <a href="/redirectURL" target="_blank"> 
-                    <img src="{{ url_for('static', filename='S_JerseyLogo.png') }}"/>
-                </a>
-            </form>
-        </footer>
     </body>
+    <footer>
+        <hr/>
+        Data has been collected from Sustainable Jersey resources
+        <br/> 
+        <a href="/redirectURL" target="_blank"> 
+            <img src="{{ url_for('static', filename='S_JerseyLogo.png') }}"/>
+        </a>
+    </footer>
 </html>

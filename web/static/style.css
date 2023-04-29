@@ -70,11 +70,3 @@ img {
   border-radius: 8px;
   z-index: 999999;
 }
-
-footer {
-  position:fixed;
-  left:0px;
-  bottom:30px;
-  height:100px;
-  width:100%;
-}
