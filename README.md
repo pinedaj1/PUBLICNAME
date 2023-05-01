@@ -1,7 +1,7 @@
-# Project 13
+# Project 13 - Vehicle Dependency and Emissions Database
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/-Nv0cKFk)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10762438&assignment_repo_type=AssignmentRepo)
+With the push for New Jersey municipalities to be more sustainable, excessive CO2 emissions become a significant problem due to their effect on the environment. A large amount of these emissions come from vehicles. This project seeks to make statewide data collected by Sustainable Jersey easy to analyze as well as easy to compare different datasets to get information about vehicle dependency and use. This repository holds the database and website GUI for the project.
+
 
 ## Usage Instructions
 
