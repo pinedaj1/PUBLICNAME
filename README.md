@@ -20,10 +20,16 @@ Topology simplified using [MapShaper](https://mapshaper.org/)
 
 ## GUI Screenshots
 
-<!-- TODO: new screenshots for new GUI work -->
-
 ![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/HomePage.jpg?raw=true)
 
 ![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/MunicipalitySearch.jpg?raw=true)
 
-![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/StateWideSearch.jpg?raw=true)
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/MeansOfTransportation.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/OnRoadVehicles.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/EVOwnership.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/StatewideCO2.jpg?raw=true)
+
+![alt text](https://github.com/TCNJ-degoodj/cab-project-13/blob/main/screenshots/StatewideVehicleComparison.jpg?raw=true)
